@@ -1,17 +1,34 @@
-import React, { useState } from 'react';
-
+import React, { useState,useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import './Signup.css';
 import logo from '../../assets/images/signup.jpg';
+import { FirebaseContext } from '../../store/FirebaseContext';
 
 export default function Signup() {
+  const history = useHistory()
   const [username,setUsername] = useState('');
   const [email,setEmail] = useState('');
   const [phone,setPhone] = useState('');
   const [password,setPassword] = useState('');
+  const {firebase} = useContext(FirebaseContext)
 
   const handlesubmit =(e)=>{
     e.preventDefault()
-    console.log(username)
+    firebase.auth().createUserWithEmailAndPassword(email,password).then((result)=>{
+      result.user.updateProfile({displayName:username}).then(()=>{
+        firebase.firestore().collection('users').add({
+          id:result.user.uid,
+          username:username,
+          phone:phone
+        }).then(()=>{
+          history.push("/login")
+
+        })
+
+      })
+     
+    })
+   
   }
 
   return (
