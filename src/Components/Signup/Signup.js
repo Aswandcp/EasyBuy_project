@@ -2,7 +2,7 @@ import React, { useState,useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Signup.css';
 import logo from '../../assets/images/signup.jpg';
-import { FirebaseContext } from '../../store/FirebaseContext';
+import { FirebaseContext } from '../../store/Context';
 
 export default function Signup() {
   const history = useHistory()

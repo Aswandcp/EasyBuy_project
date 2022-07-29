@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext} from 'react';
 
 import './Header.css';
 import Search from '../../assets/Search';
@@ -6,10 +6,12 @@ import Arrow from '../../assets/Arrow';
 import SellButton from '../../assets/SellButton';
 import SellButtonPlus from '../../assets/SellButtonPlus';
 import { useHistory } from "react-router-dom";
+import { AuthContext } from '../../store/Context';
 
 
 
 function Header() {
+  const {user} = useContext(AuthContext)
   const history = useHistory()
   return (
     <div className="headerParentDiv">
@@ -39,7 +41,9 @@ function Header() {
           <Arrow></Arrow>
         </div> */}
         <div className="loginPage">
-          <span onClick={()=>{history.push('/signup')}}>Login</span>
+          <span onClick={()=>{history.push('/signup')}}>
+            {user ? user.displayName : 'Login'}
+            </span>
           <hr />
         </div>
 
