@@ -65,6 +65,7 @@ export default function Signup() {
           <input
             className="input"
             type="number"
+            min={0}
             value={phone}
             onChange={(e)=>setPhone(e.target.value)}
             id="lname"

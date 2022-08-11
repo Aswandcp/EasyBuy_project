@@ -3,8 +3,10 @@ import {BrowserRouter as Router ,Route} from 'react-router-dom';
 import Signup from './Pages/Signup';
 import Login from './Pages/Login';
 import Create  from './Pages/Create';
+import View from './Pages/ViewPost';
 import './App.css';
 import {AuthContext, FirebaseContext} from './store/Context';
+import Post from './store/postContext';
 
 /**
  * ?  =====Import Components=====
@@ -20,9 +22,10 @@ function App() {
       setUser(user)
     })
 
-  })
+  },[])
   return (
     <div>
+<Post>   
       <Router>
         <Route exact path= '/'>
         <Home />
@@ -36,8 +39,11 @@ function App() {
         <Route path= '/Create'>
         <Create/>
         </Route>
+        <Route path= '/view'>
+        <View/>
+        </Route>
       </Router>
-      
+</Post>      
     </div>
   );
 }

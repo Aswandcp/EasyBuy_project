@@ -1,63 +1,68 @@
-import React from 'react';
 
+import React,{useState,useEffect,useContext} from 'react';
+import { FirebaseContext } from '../../store/Context';
 import Heart from '../../assets/Heart';
-import imgP1 from '../../assets/images/products/mobilesample.jpeg'
-
 import './Post.css';
+import { postContext } from '../../store/postContext';
+import {useHistory} from 'react-router-dom';
 
 function Posts() {
-  const products = [
-    { id:1,
-      img:imgP1,
-      rate:250000,
-      productName:'YAMAHA R15V3',
-      date:'Tue May 04 2021',type:'sdfd'
-    },
-    { id:2,
-      img:imgP1,
-      rate:45000,
-      productName:'YAMAHA R15V3',
-      date:'Wed May 14 2021',type:'sdfd'
-    },
-    { id:3,
-      img:imgP1,
-      rate:350000,
-      productName:'YAMAHA R15V3',
-      date:'Thu May 25 2021',type:'sdfd'
-    }
-  ]
+  const{firebase} = useContext(FirebaseContext)
+  const [products,setProducts] = useState([])
+  const {setPostDetails} = useContext(postContext)
+  const history = useHistory()
+
+  useEffect(()=>{
+    firebase.firestore().collection('products').get().then((snapshot)=>{
+      const allPost = snapshot.docs.map((product)=>{
+        return {
+          ...product.data(),
+          id:product.id
+
+        }
+
+      })
+      setProducts(allPost)
+    })
+  },[])
   return (
     <div className="postParentDiv">
       <div className="moreView">
         <div className="heading">
           <span>Products</span>
-          <span>View more</span>
+          
         </div>
         <div className='row'>
-        <div className="cards col-sm-2" >
-          {products.map((product)=>{
-            return (
-              <div
-              className="card"
-            >
-              {/* <div className="favorite">
-                <Heart></Heart>
-              </div> */}
-              <div className="image">
-                <img className='card-image' src={product.img} alt="" />
-              </div>
-              <div className="content">
-                <p className="rate">&#x20B9; {product.rate}</p>
-                <span className="kilometer">{product.type}</span>
-                <p className="name"> {product.productName}</p>
-              </div>
-              <div className="date">
-                <span>{product.date}</span>
-              </div>
-            </div>
-            )
-          })}
+        <div className="cards " >
+      {products.map(product=>{
+        return <div
+        className="card"
+        onClick={()=>{
+          setPostDetails(product);
+          history.push('/View')
+        }}
+        
+        >
+          
+        <div className="favorite">
+          <Heart></Heart>
+        </div>
+        <div className="image">
+          <img src={product.url} alt="" />
+        </div>
+        <div className="content">
+          <p className="rate">&#x20B9; {product.price}</p>
+          <span className="kilometer">{product.category}</span>
+          <p className="name">{product.name}</p>
+        </div>
+        <div className="date">
+          <span>{product.createdAt}</span>
+        </div>
+      </div>
 
+    })
+          
+    }
           
         </div>
         
