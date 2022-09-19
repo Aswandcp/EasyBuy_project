@@ -2,7 +2,6 @@ import React, { useState,useContext } from 'react';
 import {FirebaseContext} from '../../store/Context';
 import logo from '../../assets/images/signup.jpg';
 import './Login.css';
-// import react from 'react';
 import {useHistory } from 'react-router-dom'
 
 function Login() {
@@ -50,7 +49,7 @@ function Login() {
           <br />
           <button >Login</button>
         </form>
-        <a>Signup</a>
+        <a onClick={()=>{history.push('/signup')}}>Signup</a>
       </div>
     </div>
   );

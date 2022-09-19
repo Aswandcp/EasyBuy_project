@@ -1,9 +1,10 @@
-import React,{useEffect,useContext}from 'react';
+import React,{useEffect,useContext, useState}from 'react';
 import {BrowserRouter as Router ,Route} from 'react-router-dom';
 import Signup from './Pages/Signup';
 import Login from './Pages/Login';
 import Create  from './Pages/Create';
 import View from './Pages/ViewPost';
+import Edit from './Pages/edit';
 import './App.css';
 import {AuthContext, FirebaseContext} from './store/Context';
 import Post from './store/postContext';
@@ -15,6 +16,10 @@ import Home from './Pages/Home';
 
 
 function App() {
+  const [productId ,setProductId] = useState("");
+  const getProductIdHandler =(userId) =>{
+    setProductId(userId);
+  };
   const {setUser} =useContext(AuthContext)
   const {firebase} = useContext(FirebaseContext)
   useEffect(()=>{
@@ -27,7 +32,7 @@ function App() {
     <div>
 <Post>   
       <Router>
-        <Route exact path= '/'>
+      <Route exact path= '/'>
         <Home />
         </Route>
         <Route path= '/signup'>
@@ -37,10 +42,13 @@ function App() {
         <Login/>
         </Route>
         <Route path= '/Create'>
-        <Create/>
+        <Create id={productId} setProductId={setProductId}/>
         </Route>
         <Route path= '/view'>
         <View/>
+        </Route>
+        <Route path= '/Edit'>
+        <Edit getProductId={getProductIdHandler}/>
         </Route>
       </Router>
 </Post>      

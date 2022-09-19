@@ -46,6 +46,7 @@ export default function Signup() {
             id="fname"
             name="name"
             defaultValue="John"
+            required
           />
           <br />
           <label htmlFor="fname">Email</label>
@@ -58,6 +59,7 @@ export default function Signup() {
             id="fname"
             name="email"
             defaultValue="John"
+            required
           />
           <br />
           <label htmlFor="lname">Phone</label>
@@ -71,6 +73,7 @@ export default function Signup() {
             id="lname"
             name="phone"
             defaultValue="Doe"
+            required
           />
           <br />
           <label htmlFor="lname">Password</label>
@@ -83,12 +86,13 @@ export default function Signup() {
             id="lname"
             name="password"
             defaultValue="Doe"
+            required
           />
           <br />
           <br />
           <button>Signup</button>
         </form>
-        <a>Login</a>
+        <a onClick={()=>{history.push('/login')}}>Login</a>
       </div>
     </div>
   );

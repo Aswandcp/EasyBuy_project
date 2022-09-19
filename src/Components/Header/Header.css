@@ -110,10 +110,12 @@
   margin: 0;
   background-color: black;
   height: 2px;
+
 }
 
 .loginPage a{
   text-decoration: none;
+
 }
 
 .sellMenu {
@@ -135,6 +137,7 @@
 
 .sellMenu .right {
   fill: blue;
+  
 }
 .sellMenu .sellMenuContent {
   display: flex;

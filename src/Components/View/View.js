@@ -3,12 +3,19 @@ import { AuthContext, FirebaseContext } from '../../store/Context';
 import { postContext } from '../../store/postContext';
 import {useHistory} from 'react-router-dom';
 import './View.css';
+import { useDispatch } from 'react-redux';
+import { setProducts } from '../../redux/actions/productActions';
+
 function View() {
+  
 const[userDetails,setUserDetails] = useState()
 const {postDetails} = useContext(postContext)
 const {firebase} = useContext(FirebaseContext)
 const {user} = useContext(AuthContext)
 const history = useHistory()
+
+const dispatch = useDispatch();
+
 useEffect(()=>{
   const{userId} = postDetails
   firebase.firestore().collection('users').where('id','==',userId).get().then((res)=>{
@@ -18,12 +25,13 @@ useEffect(()=>{
   })
 
 },[])
-console.log(postDetails);
-console.log(user.uid);
 const handleDeleteItem =()=>{
   firebase.firestore().collection('products').doc(postDetails.id).delete().then(()=>{
     history.push("/")
 })
+}
+const handleEditItem = (userData,productData) => {
+  dispatch(setProducts(productData))
 }
   return (
     <div className="viewParentDiv">
@@ -35,18 +43,26 @@ const handleDeleteItem =()=>{
       </div>
       <div className="rightSection">
         <div className="productDetails">
-          <p>&#x20B9; {postDetails.price} </p>
-          <span>{postDetails.name}</span>
-          <p>{postDetails.category}</p>
-          <span>{postDetails.createdAt}</span>
+          <p style={{fontWeight: 'bold'}}>&#x20B9; {postDetails.price} </p>
+          <span style={{fontWeight: 'bold'}}>{postDetails.name}</span>
+          <p style={{fontWeight: 'bold'}}>{postDetails.category}</p>
+          <span style={{fontWeight: 'bold'}}>{postDetails.createdAt}</span>
         </div>
-        {userDetails && <div className="contactDetails">
-          <p>Seller details</p>
-          <p>{userDetails.username}</p>
-          <p>{userDetails.phone}</p>
+        {userDetails && <div className="contactDetails" >
+          <p style={{fontWeight: 'bold'}}>SELLER DETAILS</p>
+          <p style={{fontWeight: 'bold'}}>NAME: {userDetails.username}</p>
+          <p style={{fontWeight: 'bold'}}>MOBILE NUMBER: {userDetails.phone}</p>
         </div>}
-     <div>{postDetails.userId === user.uid && <button onClick={handleDeleteItem}>Delete</button>}</div>
+        
+     <br/>
+     
+     <div onClick={()=>{
+          history.push('/Edit')
+        }}>{postDetails?.userId === user?.uid && <button onClick={(e)=> handleEditItem(user,postDetails)}style={{backgroundColor:'green',fontWeight:'bold'}}>EDIT </button>}</div>
+        <br/>
+        <div>{postDetails?.userId === user?.uid && <button style={{backgroundColor:'red',fontWeight:'bold'}} onClick={handleDeleteItem}>DELETE</button>}</div>
       </div>
+      
     </div>
   );
 }

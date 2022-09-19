@@ -2,7 +2,7 @@ import React, { Fragment,useContext, useState} from 'react';
 import './Create.css';
 import Header from '../Header/Header';
 import { FirebaseContext, AuthContext } from '../../store/Context';
-import { useHistory} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 
 const Create = () => {
   const {firebase} = useContext(FirebaseContext)
@@ -13,10 +13,9 @@ const Create = () => {
   const [price, setPrice] = useState('');
   const [image, setImage] = useState('');
   const date = new Date()
-  const handleSubmit =()=>{
+  const handleSubmit =(e)=>{
     firebase.storage().ref(`/image/${image.name}`).put(image).then(({ref})=>{
       ref.getDownloadURL().then((url)=> {
-        console.log(url)
         firebase.firestore().collection('products').add({
           name,
           category,
@@ -24,16 +23,24 @@ const Create = () => {
           url,
           userId:user.uid,
           createdAt:date.toDateString()
+        }).then(()=>{
+                  alert('uploaded sucess')
+
         })
-         history.push('/')
+
       })
+
     })
+    history.push("/")
+
+
      
   }
   return (
     <Fragment>
       <Header />
       <card>
+        <form   onSubmit={handleSubmit}>
         <div className="centerDiv">
             <label htmlFor="fname">Name</label>
             <br />
@@ -41,9 +48,11 @@ const Create = () => {
               className="input"
               type="text"
               id="fname"
-              onChange={(e) => SetName(e.target.value)}
+              onChange={(e) => SetName(e.target.value) }
               name="Name"
-              defaultValue="John"
+              defaultValue="" 
+              required 
+            
             />
             <br />
             <label htmlFor="fname">Category</label>
@@ -54,7 +63,8 @@ const Create = () => {
               id="fname"
               onChange={(e) => setCategory(e.target.value)}
               name="category"
-              defaultValue="John"
+              defaultValue="" 
+              required
             />
             <br />
             <label htmlFor="fname">Price</label>
@@ -64,7 +74,8 @@ const Create = () => {
             type="number"
             id="fname" 
             onChange={(e) => setPrice(e.target.value)}
-            name="Price" />
+            name="Price" 
+            required/>
             <br />
           <br />
           <img alt="Posts" width="200px" height="200px" src={image ? URL.createObjectURL(image):''}></img>
@@ -74,8 +85,10 @@ const Create = () => {
                  setImage(e.target.files[0])
             }} type="file" />
             <br />
-            <button onClick={handleSubmit} className="uploadBtn">upload and Submit</button>
+            <button  className="uploadBtn">upload and Submit</button>
         </div>
+        </form>
+
       </card>
     </Fragment>
   );
