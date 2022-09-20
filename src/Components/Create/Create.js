@@ -14,6 +14,8 @@ const Create = () => {
   const [image, setImage] = useState('');
   const date = new Date()
   const handleSubmit =(e)=>{
+    e.preventDefault()
+
     firebase.storage().ref(`/image/${image.name}`).put(image).then(({ref})=>{
       ref.getDownloadURL().then((url)=> {
         firebase.firestore().collection('products').add({
@@ -24,14 +26,13 @@ const Create = () => {
           userId:user.uid,
           createdAt:date.toDateString()
         }).then(()=>{
-                  alert('uploaded sucess')
+          history.push("/")
 
         })
 
       })
 
     })
-    history.push("/")
 
 
      
@@ -85,7 +86,7 @@ const Create = () => {
                  setImage(e.target.files[0])
             }} type="file" />
             <br />
-            <button  className="uploadBtn">upload and Submit</button>
+            <button type='submit' className="uploadBtn">upload and Submit</button>
         </div>
         </form>
 

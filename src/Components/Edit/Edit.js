@@ -21,7 +21,8 @@ const Edit = ({userId,setProductId,products}) => {
     setPrice(productData.price)
 
   },[productData])
-  const handleSubmit =()=>{
+  const handleSubmit =(e)=>{
+    e.preventDefault()
     firebase.firestore().collection('products').doc(productData.id).set({
             name,
             category,
@@ -31,7 +32,6 @@ const Edit = ({userId,setProductId,products}) => {
             createdAt: productData.createdAt,
           }).then(()=>{
             history.push("/")
-            window.location.reload()
         }).catch((error) => {
           console.error(error.message);
       });
@@ -61,7 +61,7 @@ const Edit = ({userId,setProductId,products}) => {
     <Fragment>
       <Header />
       <card>
-        <form>
+        <form onSubmit={handleSubmit}>
         <div className="centerDiv">
             <label htmlFor="fname">Name</label>
             <br />
@@ -100,7 +100,7 @@ const Edit = ({userId,setProductId,products}) => {
             <br />
           <br />
           
-            <button onClick={handleSubmit} className="uploadBtn">Edit and Submit</button>
+            <button type='submit' className="uploadBtn">Edit and Submit</button>
         </div>
         </form>
       </card>
