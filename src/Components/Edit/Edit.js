@@ -32,6 +32,7 @@ const Edit = ({userId,setProductId,products}) => {
             createdAt: productData.createdAt,
           }).then(()=>{
             history.push("/")
+            alert("Edited sucessfully")
         }).catch((error) => {
           console.error(error.message);
       });
@@ -49,6 +50,9 @@ const Edit = ({userId,setProductId,products}) => {
     }catch(err){
       
     }
+    
+      
+    
 
   }
 
@@ -101,6 +105,7 @@ const Edit = ({userId,setProductId,products}) => {
           <br />
           
             <button type='submit' className="uploadBtn">Edit and Submit</button>
+            
         </div>
         </form>
       </card>

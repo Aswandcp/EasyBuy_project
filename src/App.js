@@ -44,7 +44,7 @@ function App() {
         <Route path= '/Create'>
         <Create id={productId} setProductId={setProductId}/>
         </Route>
-        <Route path= '/view'>
+        <Route path= '/view:id'>
         <View/>
         </Route>
         <Route path= '/Edit'>

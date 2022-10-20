@@ -14,7 +14,6 @@ function Posts() {
   useEffect(()=>{
     firebase.firestore().collection('products').get().then((snapshot)=>{
       const allPost = snapshot.docs.map((product)=>{
-        console.log(product)
 
         return {
           ...product.data(),
@@ -35,12 +34,13 @@ function Posts() {
         </div>
         <div className='row'>
         <div className="cards " >
-      {products.map(product=>{
+      {products.map((product,index)=>{
         return <div
-        className="card"
+        key={index}
+        className="card col-3" 
         onClick={()=>{
           setPostDetails(product);
-          history.push('/View')
+          history.push(`/View${product.id}`)
         }}
         
         >

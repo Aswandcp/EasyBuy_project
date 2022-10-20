@@ -12,6 +12,7 @@ export default function Signup() {
   const [password,setPassword] = useState('');
   const {firebase} = useContext(FirebaseContext)
 
+
   const handlesubmit =(e)=>{
     e.preventDefault()
     firebase.auth().createUserWithEmailAndPassword(email,password).then((result)=>{
@@ -22,14 +23,20 @@ export default function Signup() {
           phone:phone
         }).then(()=>{
           history.push("/login")
+          alert("signup suscessful")
 
         })
 
       })
      
     })
+    if(password.length == "" || password.length < 6 ){
+      alert("please enter atleast 6 characters")
+
+    }
    
   }
+
 
   return (
     <div>
@@ -83,16 +90,23 @@ export default function Signup() {
             type="password"
             value={password}
             onChange={(e)=>setPassword(e.target.value)}
+            
+            
             id="lname"
             name="password"
             defaultValue="Doe"
-            required
+           
+            
           />
+       
+
+          
           <br />
           <br />
           <button>Signup</button>
         </form>
         <a onClick={()=>{history.push('/login')}}>Login</a>
+        <a onClick={()=>{history.push('/')}}>Home</a>
       </div>
     </div>
   );
